@@ -109,6 +109,23 @@
           color: var(--bs-secondary-color);
         }
       }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        border: 0;
+      }
+      .icon-link {
+        color: inherit;
+      }
+      .icon-tabler {
+        width: 16px;
+        height: 16px;
+      }
 
     </style>
   </head>
@@ -199,8 +216,30 @@
           } else {
             iconClasses = `glyphicon glyphicon-${icon}`;
           }
+          let iconSVG;
+
+          if (icon == "triangle-right") {
+            iconSVG = `<svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg);" class="icon icon-tabler icon-tabler-triangle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+            </svg>`;
+          }
+          if (icon == "triangle-bottom") {
+            iconSVG = `<svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(180deg);" class="icon icon-tabler icon-tabler-triangle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+            </svg>`;
+          }
+          if (iconSVG) {
+            return `
+            <a href='${url || "javascript:void(0)"}' title='${text}' class="icon-link">
+              ${iconSVG}
+            <span class='sr-only'>${text}</span></a>
+            `
+          }
           /* glyphicons documented at https://getbootstrap.com/docs/3.3/components/#glyphicons */
           return `<a href='${url || "javascript:void(0)"}' title='${text}'>`
+            + `<img href='asset/${icon}.svg' />`
             + `<span class='${iconClasses}' aria-hidden='true'></span>`
             + `<span class='sr-only'>${text}</span></a> `;
         }
